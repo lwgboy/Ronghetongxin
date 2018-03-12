@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/layout_five"
+    android:paddingBottom="@dimen/layout_five">
+
+    <RadioButton
+        android:id="@+id/rbtn_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/layout_ten"
+        android:clickable="false"
+        />
+
+    <ImageView
+        android:id="@+id/iv_payment"
+        android:layout_width="@dimen/layout_forty"
+        android:layout_height="@dimen/layout_forty"
+        android:layout_margin="@dimen/layout_five"
+        android:background="@drawable/default_useravatar" />
+
+    <TextView
+        android:id="@+id/tv_pay_designation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_color" />
+
+</LinearLayout>

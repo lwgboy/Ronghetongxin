@@ -1,0 +1,220 @@
+package com.zhbd.beidoucommunication.http;
+
+import android.content.Context;
+import android.util.Log;
+
+import com.zhbd.beidoucommunication.MyApplication;
+import com.zhbd.beidoucommunication.utils.CommUtil;
+import com.zhbd.beidoucommunication.utils.DataProcessingUtil;
+import com.zhbd.beidoucommunication.utils.ToastUtils;
+
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.Arrays;
+
+/**
+ * Created by zhangyaru on 2017/8/23.
+ */
+
+public class NetWorkUtil {
+    /**
+     * ip地址
+     */
+    public static final String HOST = "192.168.1.99";
+//    public static final String HOST = "192.168.1.105";
+//    public static final String BASE_STATION_HOST = "192.168.0.1";
+//    public static final String BASE_STATION_HOST = "124.207.34.244";
+//    public static final String HOST = "124.207.34.244";
+    /**
+     * 端口号
+     */
+    public static final int PORT = 8888;
+//    public static final int PORT = 10003;
+
+    private static Socket socket;
+    private static OutputStream os;
+    private static InputStream is;
+
+    private static boolean netWorkIsAvailable;
+
+    /**
+     * 创建连接
+     */
+//    static {
+//        try {
+//            socket = new Socket(HOST, PORT);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    /**
+     * 单例模式返回socket对象
+     */
+    public synchronized static void getSocket() {
+        // 检查网络是否可用
+//        boolean isAvailable = CommUtil.netWorkIsAvailable(MyApplication.getContextObject());
+//        // 如果socket不为空并且当前网络状态和之前不符,就重新设置socket
+//        if (isAvailable != netWorkIsAvailable && socket != null) {
+//            socket = null;
+//        }
+        if (socket == null) {
+            try {
+//                // 可用则请求网络
+//                if (isAvailable) {
+                socket = new Socket(HOST, PORT);
+//                    netWorkIsAvailable = true;
+//                    // 不可用连接短信基站
+//                } else {
+//                    socket = new Socket(BASE_STATION_HOST, PORT);
+//                    netWorkIsAvailable = false;
+//                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    /**
+     * TCP发送数据
+     *
+     * @param bys 要发送的数据
+     */
+    public static void connectServerWithTCPSocket(final byte[] bys) {
+        new Thread() {
+            @Override
+            public void run() {
+                super.run();
+                try {
+                    getSocket();
+                    //Log.e("error", "Network.connect:" + "getSocket()");
+                    // 判断客户端和服务器是否连接成功
+                    //Log.e("error", "Network.connect:" + Arrays.toString(bys));
+                    boolean isConnected = socket.isConnected();
+                    if (isConnected) {
+                        //Log.e("error", "连接成功");
+                        /** 或创建一个报文，使用BufferedWriter写入 **/
+                        os = socket.getOutputStream();
+                        os.write(bys);
+                        os.flush();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
+    }
+
+    /**
+     * 循环接收消息
+     *
+     * @return 接收到的消息
+     */
+    public static byte[] alwaysReceiver() {
+        //Log.e("error","进来了接收消息");
+        getSocket();
+        byte[] result = null;
+        try {
+            // 设置超时时间
+            is = socket.getInputStream();
+            DataInputStream dis = new DataInputStream(is);
+            // 创建一个byte类型的buffer字节数组，用于存放读取的本地文件
+            byte buffer[] = new byte[1024];
+            int temp = 0;
+            // 判断流中是否有内容
+            //Log.e("error", "=============123=========================");
+            if (dis.available() != 0) {
+                // 只读取一次文件
+                temp = dis.read(buffer);
+                // 把数据写入到OuputStream对象中
+                result = new byte[temp];
+//                Log.e("error",Arrays.toString(result));
+//                Log.e("error",Arrays.toString(buffer));
+                //Log.e("error","======================================");
+                // 把长度1024的数组中有内容的取出来放到小数组中
+                DataProcessingUtil.addBigArrToSmallArr(buffer, result, 0);
+//                Log.e("error",Arrays.toString(result));
+                //Log.e("error",Arrays.toString(buffer));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static void startThreadSocket() {
+        Thread thread;//循环发送心跳包的线程
+        final OutputStream outputStream;//输出流，用于发送心跳
+        getSocket();
+        try {
+
+            if (!socket.getKeepAlive()) {
+                socket.setKeepAlive(true);//true，若长时间没有连接则断开
+            }
+            if (!socket.getOOBInline()) {
+                socket.setOOBInline(true);//true,允许发送紧急数据，不做处理
+            }
+            outputStream = socket.getOutputStream();//获得socket的输出流
+            final String socketContent = "Heart Beat+\n";
+            thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (true) {
+                        try {
+                            Thread.sleep(3 * 1000);//20s发送一次心跳
+                            outputStream.write(socketContent.getBytes("GBK"));
+                            outputStream.flush();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
+            thread.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 关闭连接
+     */
+    public void close() {
+        if (os != null) {
+            try {
+                os.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (socket.isInputShutdown()) { //判断输入流是否为打开状态
+            try {
+                socket.shutdownInput();  //关闭输入流
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (socket.isOutputShutdown()) {  //判断输出流是否为打开状态
+            try {
+                socket.shutdownOutput(); //关闭输出流（如果是在给对方发送数据，发送完毕之后需要关闭输出，否则对方的InputStream可能会一直在等待状态）
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (socket.isConnected()) {  //判断是否为连接状态
+            try {
+                socket.close();  //关闭socket
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+}

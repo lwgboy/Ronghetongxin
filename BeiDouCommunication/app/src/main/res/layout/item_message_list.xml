@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/layout_ten"
+        android:paddingRight="@dimen/layout_ten"
+        android:paddingTop="@dimen/layout_ten">
+
+        <RelativeLayout
+            android:id="@+id/rl_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_favicon_message_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/message_list_default_favicon"
+                android:focusable="false" />
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/layout_eight"
+            android:layout_toRightOf="@id/rl_header"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/layout_ten"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_zero"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <TextView
+                    android:id="@+id/tv_contacts_name"
+                    android:layout_width="@dimen/layout_zero"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/textsize_eithteen" />
+
+                <TextView
+                    android:id="@+id/tv_last_chat_time"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|right"
+                    android:textColor="@color/message_list_time_text_color"
+                    android:textSize="@dimen/textsize_twelve" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_zero"
+                android:layout_weight="1"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/tv_last_msg"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
+                    android:textColor="@color/message_list_msg_text_color"
+                    android:textSize="@dimen/textsize_fourteen" />
+
+                <TextView
+                    android:id="@+id/tv_unread_flag"
+                    android:layout_width="@dimen/layout_eighteen"
+                    android:layout_height="@dimen/layout_eighteen"
+                    android:layout_marginLeft="@dimen/layout_five"
+                    android:layout_marginRight="@dimen/layout_ten"
+                    android:background="@drawable/unread_count_bg"
+                    android:gravity="center"
+                    android:text="99"
+                    android:textSize="10sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/search_list_bg"
+    android:orientation="vertical">
+
+    <EditText style="@style/search_eidttext_style" />
+
+    <include layout="@layout/quick_index_layout"/>
+</LinearLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/chat_bg"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_twenty"
+        android:text="备注名"
+        android:layout_marginLeft="@dimen/layout_ten"
+        android:textColor="@color/text_color_hint" />
+
+    <EditText
+        android:id="@+id/et_ramark"
+        style="@style/friend_details_item_bg_no_arrow"
+        android:paddingLeft="@dimen/layout_twenty"
+        android:textColor="@color/black"
+        android:layout_marginTop="@dimen/layout_five"
+        android:textSize="@dimen/textsize_eithteen" />
+</LinearLayout>

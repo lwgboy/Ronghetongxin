@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "F:\\zhbd_workspace\\BeiDouCommunication\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\chatfrom_bg_normal.9.png",
+        "source": "F:\\zhbd_workspace\\BeiDouCommunication\\app\\src\\main\\res\\drawable-xhdpi\\chatfrom_bg_normal.9.png"
+    },
+    {
+        "merged": "F:\\zhbd_workspace\\BeiDouCommunication\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\chatto_bg_normal.9.png",
+        "source": "F:\\zhbd_workspace\\BeiDouCommunication\\app\\src\\main\\res\\drawable-xhdpi\\chatto_bg_normal.9.png"
+    },
+    {
+        "merged": "F:\\zhbd_workspace\\BeiDouCommunication\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\chatfrom_bg_focused.9.png",
+        "source": "F:\\zhbd_workspace\\BeiDouCommunication\\app\\src\\main\\res\\drawable-xhdpi\\chatfrom_bg_focused.9.png"
+    },
+    {
+        "merged": "F:\\zhbd_workspace\\BeiDouCommunication\\app\\build\\intermediates\\res\\merged\\debug\\drawable-xhdpi\\chatto_bg_focused.9.png",
+        "source": "F:\\zhbd_workspace\\BeiDouCommunication\\app\\src\\main\\res\\drawable-xhdpi\\chatto_bg_focused.9.png"
+    }
+]

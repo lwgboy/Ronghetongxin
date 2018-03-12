@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/quick_index_rootview"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/layout_zero"
+    android:layout_weight="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ListView
+            android:id="@+id/qucik_index_listview"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:fastScrollEnabled="false"
+            android:listSelector="@color/trans"
+            android:scrollbars="none" />
+
+        <com.zhbd.beidoucommunication.view.SideBar
+            android:id="@+id/sidrbar"
+            android:layout_width="@dimen/layout_twenty"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@color/trans" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_pop"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:background="@color/contacts_list_pop_bg"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/textsize_fourty"
+        android:visibility="gone" />
+</RelativeLayout>

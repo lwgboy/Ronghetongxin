@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/chat_bg"
+    android:orientation="vertical"
+    android:padding="@dimen/layout_fifteen">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_forty"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/email_recipient"
+            android:textColor="@color/text_color_hint" />
+
+        <RelativeLayout
+            android:layout_width="@dimen/layout_zero"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:paddingLeft="@dimen/layout_ten">
+
+            <EditText
+                android:id="@+id/et_address"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:textColor="@color/black"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/textsize_fourteen" />
+
+            <TextView
+                android:id="@+id/tv_address"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="@color/sender_address_col"
+                android:textSize="@dimen/textsize_fourteen"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_one_half"
+        android:layout_marginBottom="@dimen/layout_fifteen"
+        android:layout_marginTop="@dimen/layout_fifteen"
+        android:background="@drawable/login_line" />
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_twenty"
+
+        >
+
+        <EditText
+            android:id="@+id/et_email_content"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_forty"
+            android:background="@drawable/chat_edittext_stroke_bg_shpae"
+            android:hint="@string/content"
+            android:maxLength="25"
+            android:padding="@dimen/layout_five"
+            android:textColor="@color/black"
+            android:textColorHint="@color/text_color_hint"
+            android:textCursorDrawable="@null" />
+
+        <TextView
+            android:id="@+id/tv_email_content"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_forty"
+            android:background="@drawable/chat_edittext_stroke_bg_shpae_disabled"
+            android:gravity="center"
+            android:textColor="@color/sender_number_col"
+            android:textSize="@dimen/textsize_sixteen"
+            android:visibility="gone" />
+    </RelativeLayout>
+</LinearLayout>

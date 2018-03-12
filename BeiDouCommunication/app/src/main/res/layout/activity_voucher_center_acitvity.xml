@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="@dimen/layout_ten">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/layout_ten"
+            android:text="用户ID: "
+            android:textColor="@color/send_sms_text_col"
+            android:textSize="@dimen/layout_twenty_five" />
+
+        <TextView
+            android:id="@+id/tv_voucher_userid"
+            android:layout_width="@dimen/layout_zero"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingBottom="@dimen/layout_ten"
+            android:paddingTop="@dimen/layout_ten"
+            android:textColor="@color/sender_number_col"
+            android:textSize="@dimen/layout_twenty_eight" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_one_half"
+        android:background="@drawable/login_line" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/layout_ten"
+        android:layout_marginTop="@dimen/layout_ten"
+        android:text="余额充值"
+        android:textColor="@color/send_sms_text_col" />
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:horizontalSpacing="@dimen/layout_ten"
+        android:numColumns="3"
+        android:verticalSpacing="@dimen/layout_ten">
+    </GridView>
+
+</LinearLayout>

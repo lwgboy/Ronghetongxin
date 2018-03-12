@@ -1,0 +1,68 @@
+package com.zhbd.beidoucommunication.config;
+
+/**
+ * Created by zhangyaru on 2017/8/24.
+ */
+
+public class Constants {
+    // 用户id
+    public static final String USER_ID = "user_id";
+    // 手机号
+    public static final String PHONE_NUMBER = "phone_number";
+    // 身份证号
+    public static final String ID_CARD_NUMBER = "id_card_number";
+    // 密码
+    public static final String USER_PASSWORD = "password";
+    // 昵称
+    public static final String NICKNAME = "nickname";
+
+
+    // 注册反馈广播action
+    public static final String ACTION_REGISTER_FEEKBACK = "com.regist.feekback";
+
+    // 登录反馈广播action
+    public static final String ACTION_LOGIN_FEEKBACK = "com.login.feekback";
+
+    // 修改密码反馈广播action
+    public static final String ACTION_ALTER_PWD_FEEKBACK = "com.alter.password.feekback";
+
+    // 添加好友反馈广播action
+    public static final String ACTION_ADD_FRIENDS_FEEKBACK = "com.add.friends.feekback";
+
+    //群操作请求反馈广播action
+    public static final String ACTION_GROUP_OPERATE_FEEKBACK = "com.group.operate.feekback";
+
+    // 文字消息反馈广播action
+    public static final String ACTION_TEXT_MESSAGE_FEEKBACK = "com.text.msg.feekback";
+
+    // 消息收发状态---发送成功
+    public static final int MESSAGE_STATE_SEND_SUCCESS = 0;
+    // 消息收发状态---发送失败
+    public static final int MESSAGE_STATE_SEND_FAILURE = 1;
+    // 消息收发状态---接收
+    public static final int MESSAGE_STATE_RECEIVER = 2;
+    // 文本消息
+    public static final int MESSAGE_TYPE_TEXT = 0;
+    // 语音消息
+    public static final int MESSAGE_TYPE_VOICE = 1;
+    // 消息未读
+    public static final int MESSAGE_NO_READ = 0;
+    // 消息已读
+    public static final int MESSAGE_HAVE_READ = 1;
+
+    // 身份证号长度
+    public static final int ID_CARD_LENGTH = 18;
+    // 手机号长度
+    public static final int PHONE_NUMBER_LENGTH = 11;
+    // 用户id长度
+    public static final int USER_ID_LENGTH = 3;
+
+    // 接收新消息广播
+    public static final String RECEIVE_MSG_UPDATEUI_ACTION = "com.beidou.receive.msg";
+    // 接收手机短信广播
+    public static final String RECEIVE_SMS_ACTION = "com.beidou.receive.sms";
+    // 接收群组号码新消息广播
+    public static final String RECEIVE_GROUPNUMBER_UPDATEUI_ACTION = "com.beidou.receive.groupnumber";
+    // 接收数据库id广播
+    public static final String RECEIVE_ROWID_ACTION = "com.beidou.receive.rowid";
+}

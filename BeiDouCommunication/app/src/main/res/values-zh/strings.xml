@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">融合通信</string>
+    <!--登录界面-->
+    <string name="login">登录</string>
+    <string name="phone_or_id">用户id</string>
+    <string name="password">密码</string>
+    <string name="forgetPwd">忘记密码</string>
+    <string name="register">注册</string>
+    <!--登录界面提示-->
+    <string name="account_not_none">用户名不能为空~</string>
+    <string name="account_iswrong">用户名格式错误~</string>
+    <string name="password_is_empty">密码不能为空~</string>
+    <string name="network_unavailable">网络不可用~</string>
+    <string name="net_excaption">网络环境异常~</string>
+    <!--等待弹窗-->
+    <string name="warn_prompt">温馨提示</string>
+    <string name="downloading">登录中,请稍后..</string>
+    <string name="registerloading">注册中,请稍后..</string>
+    <string name="logining">登录中...</string>
+    <!--注册界面-->
+    <string name="login_account">请输入您的手机号</string>
+    <string name="register_id_card">请输入您的身份证号</string>
+    <string name="register_rally_name">请输入您的昵称</string>
+    <string name="set_password_hint">请设置您的密码(6位)</string>
+    <string name="confirm_password_hint">请再次输入您的密码</string>
+    <string name="confirm">确定</string>
+    <string name="phone_number_not_none">手机号不能为空~</string>
+    <string name="phone_number_iswrong">手机号格式错误~</string>
+    <string name="id_card_not_none">身份证不能为空~</string>
+    <string name="id_card_iswrong">身份证格式错误~</string>
+    <string name="nick_name_not_none">昵称不能为空~</string>
+    <string name="nick_name_length">昵称长度不符合要求！</string>
+    <string name="nick_name_format_error">昵称只能为字母数组和中文</string>
+    <string name="confirm_pwd_not_none">请确认密码~</string>
+    <string name="pwd_not_same">密码与确认码不一致！</string>
+    <string name="pwd_length">密码长度不符合要求</string>
+    <string name="pwd_number">密码只能为数字！</string>
+    <string name="server_connection_failure">服务器连接失败</string>
+    <string name="phone_register">手机号码已被注册</string>
+    <string name="idCard_register">身份证号码已被注册</string>
+    <string name="regist_success">注册成功,前往登录</string>
+    <string name="regist_failure">注册失败,请重试</string>
+
+    <!--登录界面-->
+    <string name="format_illegal">手机号或身份证号格式非法</string>
+    <string name="login_success">登录成功</string>
+    <string name="login_failure">登录失败</string>
+    <string name="pwd_or_userid_error">用户名或密码错误</string>
+    <string name="user_not_exist">该用户不存在</string>
+
+    <!--主页-->
+    <string name="main_button_message">消息</string>
+    <string name="main_button_contacts">通讯录</string>
+    <string name="main_button_mine">我</string>
+    <string name="home_pager">主页</string>
+    <string name="again_exit">再按一次退出</string>
+
+    <!--消息界面-->
+    <string name="communication_message">消息</string>
+    <string name="sms_message">短信</string>
+    <string name="email">邮件</string>
+    <string name="send_sms">发短信</string>
+    <string name="send_email">发邮件</string>
+    <string name="delet">删除</string>
+    <string name="delete_failed">删除失败, 请重试...</string>
+    <string name="update_success">更新成功</string>
+    <string name="today">今天</string>
+    <string name="small_problem">哎呀,出了点小问题,请重新操作..</string>
+
+    <!--搜索-->
+    <string name="search">搜索</string>
+
+    <!--通讯录界面-->
+    <string name="contacts_list_friend">好友</string>
+    <string name="contacts_list_group">群组</string>
+
+    <!--详细资料界面-->
+    <string name="friend_details">详细资料</string>
+    <string name="user_id_title">用户ID:</string>
+    <string name="set_remark">设置备注</string>
+    <string name="phone_number">手机号</string>
+    <string name="id_card">身份证号</string>
+    <string name="send_message">发消息</string>
+    <string name="ramark_info">备注信息</string>
+    <string name="return_text">返回</string>
+    <string name="delete_success">删除成功</string>
+
+
+    <!--聊天界面-->
+    <string name="button_push_to_talk">按住 说话</string>
+    <string name="button_loosen_to_over">松开 结束</string>
+    <string name="button_send">发送</string>
+    <string name="text_ack_msg">已读</string>
+    <string name="text_delivered_msg">送达</string>
+    <string name="content_overlength">内容只能这么长了,留着下次说吧</string>
+    <string name="server_error">服务器开小差了,请重试...</string>
+    <string name="send_success">发送成功</string>
+    <string name="send_failure">发送失败,请重试..</string>
+    <string name="move_up_to_cancel">松开手指,取消发送</string>
+    <string name="speak_to_short">说话时间太短</string>
+    <string name="release_to_cancel">手指上滑,取消发送</string>
+
+    <!--添加好友界面-->
+    <string name="search_edittext_hint">用户ID/手机号/身份证号</string>
+    <string name="search_condition_not_none">请输入添加条件</string>
+    <string name="add_friends">添加好友</string>
+    <string name="add">添加</string>
+    <string name="remark">备注</string>
+    <string name="format_error">条件格式错误</string>
+    <string name="add_friends_success">添加成功</string>
+    <string name="add_friends_failure">添加失败,请重试...</string>
+    <string name="being_added">正在添加,请稍后...</string>
+
+
+    <!--创建群组界面-->
+    <string name="build_group">创建群组</string>
+    <string name="cancel_text">取消</string>
+    <string name="group_name_hint">填写群名称(2~10个字)</string>
+    <string name="so_many_people">人数太多了,单次最多20个人</string>
+    <string name="as_least_selected_two">请至少选中两人</string>
+    <string name="group_name_not_none">请填写群组名称</string>
+
+    <!--发送消息界面-->
+    <string name="new_sms">新信息</string>
+    <string name="recipients">收件人: </string>
+    <string name="send">发送</string>
+    <string name="sms">短信</string>
+    <string name="content_not_empty">内容不能为空</string>
+    <string name="permission_not_available">访问联系人权限不可用</string>
+    <string name="recorder_permission_not_available">录音权限不可用</string>
+    <string name="recorder_permission_not_available_msg">发送语音消息需开启语音录制功能;
+        否则, 您将无法正常使用此功能</string>
+    <string name="recorder_open_permission_for_setting">请在-应用设置-权限-中，
+        允许使用录音权限</string>
+
+    <string name="permission_not_available_msg">由于此功能需要获取联系人权限, 为你存储短信;
+        否则, 您将无法正常使用此功能</string>
+
+    <string name="immediately_open">立即开启</string>
+    <string name="permission_success">权限获取成功</string>
+    <string name="open_permission_for_setting">请在-应用设置-权限-中，
+        允许使用获取联系人权限来获取联系人号码</string>
+
+
+    <!--发送邮件界面-->
+    <string name="content">内容</string>
+    <string name="email_recipient">收件人: </string>
+    <string name="email_sender">发件箱</string>
+    <string name="new_email">新邮件</string>
+    <string name="email_address_format_error">邮箱地址格式错误</string>
+
+    <!--我界面-->
+    <string name="exit_login">退出登录</string>
+    <string name="ic_info">IC卡信息</string>
+    <string name="hardware_state">硬件状态</string>
+    <string name="signal_strength">信号强度</string>
+    <string name="about_us">关于我们</string>
+    <string name="setting">设置</string>
+    <string name="exit_login_pop_hint">退出后不会删除任何历史数据,下次依旧可以登录此账号</string>
+
+    <!--个人资料界面-->
+    <string name="update_password">修改密码</string>
+    <string name="personal_info">个人信息</string>
+    <string name="old_password">旧密码</string>
+    <string name="old_password_hint">请输入您的旧密码</string>
+    <string name="new_password">新密码</string>
+    <string name="new_password_hint">请输入您的新密码</string>
+    <string name="again_password">确认密码</string>
+    <string name="again_password_hint">请再次输入新密码</string>
+
+    <!--修改密码界面-->
+    <string name="old_empty_hint">请输入旧密码</string>
+    <string name="new_empty_hint">请输入新密码</string>
+    <string name="again_empty_hint">请确认密码</string>
+    <string name="old_pwd_error">旧密码输入错误</string>
+    <string name="new_pwd_formort_error">新密码格式错误,只能是6位数字</string>
+    <string name="new_and_again_not_fit">新密码与确认密码不一致</string>
+
+    <!--消息通知-->
+    <string name="can_send">盼了好久终于盼到,可以发消息了哦~</string>
+
+    <!--充值界面-->
+    <string name="voucher_center">充值中心</string>
+    <string name="balance_voucher">余额充值</string>
+    <string name="cashier_desk">收银台</string>
+
+    <!--朋友代付-->
+    <string name="choice_friend">选择好友</string>
+
+</resources>

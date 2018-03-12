@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- titlebar高度 -->
+    <dimen name="title_bar_height">65dp</dimen>
+    <dimen name="status_bar_height">20dp</dimen>
+    <dimen name="title_bar_button_width">45dp</dimen>
+
+
+    <!--固定dp值-->
+    <dimen name="layout_negative_twenty">-20dp</dimen>
+    <dimen name="layout_zero">0dp</dimen>
+    <dimen name="layout_one_half">0.5dp</dimen>
+    <dimen name="layout_one">1dp</dimen>
+    <dimen name="layout_two">2dp</dimen>
+    <dimen name="layout_three">3dp</dimen>
+    <dimen name="layout_four">4dp</dimen>
+    <dimen name="layout_five">5dp</dimen>
+    <dimen name="layout_six">6dp</dimen>
+    <dimen name="layout_eight">8dp</dimen>
+    <dimen name="layout_nine">9dp</dimen>
+    <dimen name="layout_ten">10dp</dimen>
+    <dimen name="layout_twelve">12dp</dimen>
+    <dimen name="layout_fifteen">15dp</dimen>
+    <dimen name="layout_eighteen">18dp</dimen>
+    <dimen name="layout_twenty">20dp</dimen>
+    <dimen name="layout_twenty_five">25dp</dimen>
+    <dimen name="layout_twenty_eight">28dp</dimen>
+    <dimen name="layout_twenty_nine">29dp</dimen>
+    <dimen name="layout_thirty">30dp</dimen>
+    <dimen name="layout_thirty_two">32dp</dimen>
+    <dimen name="layout_thirty_five">35dp</dimen>
+    <dimen name="layout_forty">40dp</dimen>
+    <dimen name="layout_forty_eight">48dp</dimen>
+    <dimen name="layout_fifty">50dp</dimen>
+    <dimen name="layout_eighty">80dp</dimen>
+    <dimen name="layout_hundred">100dp</dimen>
+    <dimen name="layout_hundred_fifty">150dp</dimen>
+    <dimen name="layout_hundred_tew_eight">228dp</dimen>
+    <dimen name="layout_three_hundred_and_ten">310dp</dimen>
+
+    <!--固定sp值-->
+    <dimen name="textsize_ten">10sp</dimen>
+    <dimen name="textsize_twelve">12sp</dimen>
+    <dimen name="textsize_fourteen">14sp</dimen>
+    <dimen name="textsize_sixteen">16sp</dimen>
+    <dimen name="textsize_eithteen">18sp</dimen>
+    <dimen name="textsize_twenty_five">25sp</dimen>
+    <dimen name="textsize_fourty">40sp</dimen>
+
+
+
+
+</resources>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/layout_fifteen">
+
+    <TextView
+        android:id="@+id/tv_signal_lable"
+        android:layout_width="@dimen/layout_forty_eight"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/layout_five"
+        android:paddingRight="@dimen/layout_fifteen"
+        android:paddingTop="@dimen/layout_five"
+        android:text="10#"
+        android:textColor="@color/black"
+        android:textSize="@dimen/textsize_sixteen" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/prsbar_signal"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_thirty"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/layout_two"
+            android:max="4"
+            android:progressDrawable="@drawable/bar_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="@dimen/layout_zero"
+                android:layout_height="@dimen/layout_thirty"
+                android:layout_weight="1"
+                android:background="@color/trans" />
+
+            <View
+                android:layout_width="@dimen/layout_two"
+                android:layout_height="@dimen/layout_twenty_nine"
+                android:background="@color/white" />
+
+            <View
+                android:layout_width="@dimen/layout_zero"
+                android:layout_height="@dimen/layout_thirty"
+                android:layout_weight="1"
+                android:background="@color/trans" />
+
+            <View
+                android:layout_width="@dimen/layout_two"
+                android:layout_height="@dimen/layout_twenty_nine"
+                android:background="@color/white" />
+
+            <View
+                android:layout_width="@dimen/layout_zero"
+                android:layout_height="@dimen/layout_thirty"
+                android:layout_weight="1"
+                android:background="@color/trans" />
+
+            <View
+                android:layout_width="@dimen/layout_two"
+                android:layout_height="@dimen/layout_twenty_nine"
+                android:background="@color/white" />
+
+            <View
+                android:layout_width="@dimen/layout_zero"
+                android:layout_height="@dimen/layout_thirty"
+                android:layout_weight="1"
+                android:background="@color/trans" />
+
+            <View
+                android:layout_width="@dimen/layout_two"
+                android:layout_height="@dimen/layout_twenty_nine"
+                android:background="@color/white" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</LinearLayout>

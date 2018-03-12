@@ -1,0 +1,10 @@
+package com.zhbd.beidoucommunication.domain;
+
+import java.io.Serializable;
+
+/**
+ * Created by zhangyaru on 2017/9/7.
+ */
+
+public class Group implements Serializable {
+}

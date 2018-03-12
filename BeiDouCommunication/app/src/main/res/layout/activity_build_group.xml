@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:padding="@dimen/layout_ten"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/et_group_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/group_name_hint"
+        android:paddingBottom="@dimen/layout_ten"
+        android:paddingLeft="@dimen/layout_fifteen"
+        android:paddingTop="@dimen/layout_ten"
+        android:textColor="@color/black"
+        android:background="@null"
+        android:textColorHint="@color/text_color_hint"
+        android:cursorVisible="true"
+        android:textCursorDrawable="@null"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_one_half"
+        android:background="@drawable/login_line" />
+
+    <include layout="@layout/quick_index_layout" />
+
+</LinearLayout>

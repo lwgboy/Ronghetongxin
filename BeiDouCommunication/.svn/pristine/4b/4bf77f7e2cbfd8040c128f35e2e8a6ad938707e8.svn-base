@@ -1,0 +1,360 @@
+package com.zhbd.beidoucommunication.manager;
+
+import android.media.MediaRecorder;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
+import com.zhbd.beidoucommunication.MyApplication;
+import com.zhbd.beidoucommunication.utils.AudioFileUtils;
+import com.zhbd.beidoucommunication.utils.ToastUtils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+/**
+ * @param
+ * @author ldm
+ * @description 录音管理工具类
+ * @time 2016/6/25 9:39
+ */
+public class AudioManager {
+    //AudioRecord: 主要是实现边录边播（AudioRecord+AudioTrack）以及对音频的实时处理。
+    private MediaRecorder mMediaRecorder;
+    //录音文件
+    private String mDir;
+    //当前录音文件目录
+    private String mCurrentFilePath;
+    //单例模式
+    private static AudioManager mInstance;
+    //是否准备好
+    private boolean isPrepare;
+    private FileOutputStream mFos;
+    // 录音状态,保证多线程内存同步,避免出问题
+    public volatile boolean mIsRecording;
+
+    // 播放状态,保证多线程内存同步,避免出问题
+    public volatile boolean mIsPlaying;
+
+    // 线程池
+    ExecutorService mExecutorService;
+    // 线程间通信
+    Handler mMainThreadHandler;
+
+    // 缓冲区读取文件,不能太大,避免OOM
+    private byte[] mBuffer;
+
+    // 记录开始和结束时间
+    private long mStartRecordTime, mStopRecordTime;
+
+
+    // 缓冲区大小
+    private static final int BUFFER_SIZE = 500;
+    private File mAudioFile;
+
+
+    //音频输入-麦克风
+    public final static int AUDIO_INPUT = MediaRecorder.AudioSource.MIC;
+    //采用频率
+    //44100是目前的标准，但是某些设备仍然支持22050，16000，11025
+    public final static int AUDIO_SAMPLE_RATE = 8000;  //44.1KHz,普遍使用的频率
+
+
+    //私有构造方法
+    private AudioManager(String dir) {
+        mDir = dir;
+    }
+
+    //对外公布获取实例的方法
+    public static AudioManager getInstance(String dir) {
+        if (mInstance == null) {
+            synchronized (AudioManager.class) {
+                if (mInstance == null) {
+                    mInstance = new AudioManager(dir);
+                }
+            }
+        }
+        return mInstance;
+    }
+
+    /**
+     * @param
+     * @author ldm
+     * @description 录音准备工作完成回调接口
+     * @time 2016/6/25 11:14
+     */
+    public interface AudioStateListener {
+        void wellPrepared();
+    }
+
+    public AudioStateListener mAudioStateListener;
+
+    /**
+     * @param
+     * @description 供外部类调用的设置回调方法
+     * @author ldm
+     * @time 2016/6/25 11:14
+     */
+    public void setOnAudioStateListener(AudioStateListener listener) {
+        mAudioStateListener = listener;
+    }
+
+    /**
+     * @param
+     * @description 录音准备工作
+     * @author ldm
+     * @time 2016/6/25 11:15
+     */
+    public void prepareAudio() {
+        /* ①Initial：实例化MediaRecorder对象 */
+        mMediaRecorder = new MediaRecorder();
+
+        // 单线程
+        mExecutorService = Executors.newSingleThreadExecutor();
+        mMainThreadHandler = new Handler(Looper.getMainLooper());
+
+        mBuffer = new byte[BUFFER_SIZE];
+        try {
+            isPrepare = false;
+            File dir = new File(mDir);
+            if (!dir.exists()) {
+                dir.mkdirs();//文件不存在，则创建文件
+            }
+            String fileName = generateFileName();
+            mAudioFile = new File(dir, fileName);
+            mCurrentFilePath = mAudioFile.getAbsolutePath();
+            //创建文件输出流
+            mFos = new FileOutputStream(mAudioFile);
+
+            //设置音源为Micphone
+            mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+            //设置封装格式
+            mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.RAW_AMR);
+            mMediaRecorder.setOutputFile(mAudioFile.getAbsolutePath());
+            //设置编码格式
+            mMediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+
+            mMediaRecorder.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @deprecated 开始录音
+     */
+    public void startTheAudio() {
+        //开始录制音频
+        // 改变状态
+        mIsRecording = true;
+        // 提交后台任务,执行开始录音逻辑
+
+        // 执行开始录音逻辑,失败提醒用户
+        if (!startRecord()) {
+            recordFail();
+        }
+
+
+        // 准备完成
+        isPrepare = true;
+        if (mAudioStateListener != null)
+
+        {
+            mAudioStateListener.wellPrepared();
+        }
+//            SharedPrefUtil.putBoolean(MyApplication.getInstance(), "isFirstRun", false);
+//        }
+    }
+
+    /**
+     * 开始录音
+     *
+     * @return
+     */
+    private boolean startRecord() {
+        try {
+            // 开始录音
+            mMediaRecorder.start();
+            // 记录开始录音时间,记录时长
+            mStartRecordTime = System.currentTimeMillis();
+            // 循环读取数据,写到输出流中
+            w:
+            while (mIsRecording) {
+                long l = System.currentTimeMillis();
+                long l1 = l - mStartRecordTime;
+                if (l1 >= 8001) {
+                    mIsRecording = false;
+                    // 时间限制,回调方法
+                    mMainThreadHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (mStopRecordTime - mStartRecordTime >= 8000) {
+                                ToastUtils.showToast(MyApplication.getContextObject(), "最多录制4秒钟");
+                                Log.e("error", "录音成功");
+                            }
+                        }
+
+                    });
+                    // 压缩录音文件
+                    compressFile();
+                    return true;
+                }
+            }
+            // 退出循环,停止录音,释放录音资源
+            return stopRecord();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            // 捕获异常,避免闪退,返回false提示用户
+            return false;
+        } finally {
+            // 释放资源
+            if (mMediaRecorder != null) {
+                mMediaRecorder.release();
+            }
+        }
+    }
+
+    /**
+     * 结束录音逻辑
+     *
+     * @return
+     */
+    private boolean stopRecord() {
+        // 记录结束时间,统计录音时长
+        mStopRecordTime = System.currentTimeMillis();
+        // 大于1秒算成功,主线程更新UI显示
+        final int second = (int) (mStopRecordTime - mStartRecordTime) / 1000;
+        if (second > 1) {
+            mMainThreadHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    if (mStopRecordTime - mStartRecordTime >= 8000) {
+                        ToastUtils.showToast(MyApplication.getContextObject(), "最多录制4秒钟");
+                        Log.e("error", "录音成功");
+                    }
+                }
+
+            });
+            // 压缩录音文件
+            compressFile();
+        } else {
+            mMainThreadHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    ToastUtils.showToast(MyApplication.getContextObject(), "录音时间太短");
+                }
+            });
+        }
+        return true;
+    }
+
+    /**
+     * 压缩录音文件
+     */
+    private void compressFile() {
+        try {
+            String fileName = mAudioFile.getName()
+                    .substring(0, mAudioFile.getName().lastIndexOf('.'));
+            File spxFile = new File(mDir + "/" + fileName + ".spx");
+            spxFile.createNewFile();
+
+            //Log.e("error", "b:" + spxFile.getAbsolutePath());
+            AudioFileUtils.raw2spx(mAudioFile, spxFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 录音发生错误的处理
+     */
+    private void recordFail() {
+//        Log.e("error", "recordFail");
+        // 主线程改变ui
+        mMainThreadHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                ToastUtils.showToast(MyApplication.getContextObject(), "录音失败");
+                // 重置录音状态,以及UI状态
+                mIsRecording = false;
+            }
+        });
+    }
+
+
+    /**
+     * @param
+     * @description 随机生成录音文件名称
+     * @author ldm
+     * @time 2016/6/25 、
+     */
+
+    private String generateFileName() {
+        //随机生成不同的UUID
+        return UUID.randomUUID().toString() + ".amr";
+    }
+
+    /**
+     * @param
+     * @description 获取音量值
+     * @author ldm
+     * @time 2016/6/25 9:49
+     */
+//    public int getVoiceLevel(int maxlevel) {
+//        if (isPrepare) {
+//            try {
+//                // getMaxAmplitude返回的数值最大是32767
+//                return maxlevel * mAudioRecord. / 32768 + 1;//返回结果1-7之间
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//        return 1;
+//    }
+
+    /**
+     * @param
+     * @description 释放资源
+     * @author ldm
+     * @time 2016/6/25 9:50
+     */
+    public void release() {
+        if (mMediaRecorder != null) {
+//            mMediaRecorder.stop();
+//            mMediaRecorder.release();
+            mMediaRecorder = null;
+        }
+    }
+
+    /**
+     * @param
+     * @description 录音取消
+     * @author ldm
+     * @time 2016/6/25 9:51
+     */
+    public void cancel() {
+        release();
+        if (mCurrentFilePath != null) {
+            //取消录音后删除对应文件
+            File file = new File(mCurrentFilePath);
+            file.delete();
+            mCurrentFilePath = null;
+        }
+
+    }
+
+    /**
+     * @param
+     * @description 获取当前文件路径
+     * @author ldm
+     * @time 2016/6/25 9:51
+     */
+    public String getCurrentFilePath() {
+
+        return mCurrentFilePath;
+    }
+}

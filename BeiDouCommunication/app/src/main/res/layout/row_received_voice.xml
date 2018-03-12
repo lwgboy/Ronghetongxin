@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/layout_eight"
+    android:paddingTop="@dimen/layout_eight">
+
+    <TextView
+        android:id="@+id/tv_date_time"
+        style="@style/chat_text_date_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_five">
+
+        <ImageView
+            android:id="@+id/iv_userhead"
+            android:layout_width="@dimen/layout_fifty"
+            android:layout_height="@dimen/layout_fifty"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="@dimen/layout_five"
+            android:scaleType="fitXY"
+            android:src="@drawable/default_useravatar" />
+
+        <RelativeLayout
+            android:id="@+id/rl_voice"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/layout_forty_eight"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/iv_userhead"
+            android:background="@drawable/chatfrom_bg">
+
+            <ImageView
+                android:id="@+id/iv_voice"
+                android:layout_width="@dimen/layout_twenty"
+                android:layout_height="@dimen/layout_twenty"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/layout_five"
+                android:scaleType="fitCenter"
+                android:src="@drawable/chatfrom_voice_playing" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tv_msg_from"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@id/rl_voice"
+            android:layout_below="@+id/rl_voice"
+            android:text="来自 北斗"
+            android:textColor="@color/text_color_hint"
+            android:textSize="@dimen/layout_twelve" />
+
+        <TextView
+            android:id="@+id/tv_length"
+            style="@style/chat_text_name_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/rl_voice"
+            android:gravity="center" />
+
+        <ImageView
+            android:id="@+id/iv_unread_voice"
+            android:layout_width="@dimen/layout_ten"
+            android:layout_height="@dimen/layout_ten"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/tv_length"
+            android:src="@drawable/unread_count_bg"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</LinearLayout>

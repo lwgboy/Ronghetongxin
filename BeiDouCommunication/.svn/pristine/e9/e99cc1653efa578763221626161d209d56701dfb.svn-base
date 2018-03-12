@@ -1,0 +1,319 @@
+package com.zhbd.beidoucommunication.ui.activity;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
+import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.view.View;
+import android.widget.EditText;
+
+import com.zhbd.beidoucommunication.MyApplication;
+import com.zhbd.beidoucommunication.R;
+import com.zhbd.beidoucommunication.base.TitlebarActivity;
+import com.zhbd.beidoucommunication.config.Constants;
+import com.zhbd.beidoucommunication.db.DatabaseDao;
+import com.zhbd.beidoucommunication.domain.User;
+import com.zhbd.beidoucommunication.http.NetWorkUtil;
+import com.zhbd.beidoucommunication.utils.CommUtil;
+import com.zhbd.beidoucommunication.utils.DataProcessingUtil;
+import com.zhbd.beidoucommunication.utils.SharedPrefUtil;
+import com.zhbd.beidoucommunication.utils.ToastUtils;
+import com.zhbd.beidoucommunication.widget.WaitDialog;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class RegistActivity extends TitlebarActivity {
+    // 手机号
+    @Bind(R.id.et_phone_number)
+    EditText mEtPhoneNumber;
+    // 身份证号
+    @Bind(R.id.et_idcard_number)
+    EditText mEtIdCard;
+    // 昵称
+    @Bind(R.id.et_nick_name)
+    EditText mEtNickName;
+    // 密码
+    @Bind(R.id.et_password)
+    EditText mEtPassword;
+    // 确认密码
+    @Bind(R.id.et_confirmpassword)
+    EditText mEtConfirmPwd;
+
+    private String phoneNumber;
+    private String idCard;
+    private String nickName;
+    private String password;
+    private String cofirmPwd;
+
+    private DatabaseDao dao;
+
+    private int recLen = 30;
+    Timer timer = new Timer();
+    private boolean isPause;
+    /**
+     * 等待提示框
+     */
+    private WaitDialog waitDialog;
+
+
+    // 注册接收者接收广播
+    BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // 只有在对话框显示的情况下,才继续接受数据
+            if (waitDialog.isShowing()) {
+                byte def = -1;
+                byte registState = intent.getByteExtra("registState", def);
+                int userId = intent.getIntExtra("userId", 0);
+                switch (registState) {
+                    // 注册成功
+                    case DataProcessingUtil.REGISTER_FEEDBACK_SUCCESS:
+                        ToastUtils.showToast(RegistActivity.this, R.string.regist_success);
+                        // 对应的用户id保存起来,整条数据存到数据库
+                        //SharedPrefUtil.putInt(RegistActivity.this, Constants.USER_ID, userId);
+                        User user = new User();
+                        user.setUserId(userId);
+                        user.setPhoneNumber(phoneNumber);
+                        user.setIdCardNumber(idCard);
+                        user.setNickName(nickName);
+                        user.setPassWord(password);
+
+                        //存入数据库
+                        dao = DatabaseDao.getInstance(RegistActivity.this, 0);
+                        dao.addDateToUser(user);
+                        //设置返回数据
+                        RegistActivity.this.setResult(RESULT_OK, intent);
+                        waitDialog.dismiss();
+                        finish();
+                        break;
+                    // 身份证被占用
+                    case DataProcessingUtil.REGISTER_FEEDBACK_IDCARD_OCCUPY:
+                        waitDialog.dismiss();
+                        // 提示用户身份证被占用
+                        ToastUtils.showToast(RegistActivity.this, R.string.idCard_register);
+                        break;
+                    // 手机号被占用
+                    case DataProcessingUtil.REGISTER_FEEDBACK_PHONE_OCCUPY:
+                        waitDialog.dismiss();
+                        // 提示用户手机号被占用
+                        ToastUtils.showToast(RegistActivity.this, R.string.phone_register);
+                        break;
+                    // 身份证被或手机号格式非法
+                    case DataProcessingUtil.REGISTER_FEEDBACK_FORMAT_ILLEGAL:
+                        waitDialog.dismiss();
+                        // 提示用户身份证被或手机格式非法
+                        ToastUtils.showToast(RegistActivity.this, R.string.format_illegal);
+                        break;
+                    default:
+                        waitDialog.dismiss();
+                        // 提示用户注册失败
+                        ToastUtils.showToast(RegistActivity.this, R.string.regist_failure);
+                }
+            }
+        }
+    };
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setLayoutRes(R.layout.activity_regist);
+        ButterKnife.bind(this);
+        initView();
+    }
+
+    private void initView() {
+        // 设置标题属性
+        setTitleText(R.string.register);
+        setLeftText(R.string.login, true);
+        // 检测手机号格式
+        mEtPhoneNumber.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                // 焦点不在文本框时,检测数据格式,验证并提示
+                if (!mEtPhoneNumber.hasFocus()) {
+                    phoneNumber = mEtPhoneNumber.getText().toString();
+                    if (CommUtil.isEmpty(phoneNumber)) {
+                        ToastUtils.showToast(RegistActivity.this, R.string.phone_number_not_none);
+                    } else if (!CommUtil.isPhone(phoneNumber)) {
+                        ToastUtils.showToast(RegistActivity.this, R.string.phone_number_iswrong);
+                    }
+                }
+            }
+        });
+
+        // 初始化等待对话框
+        waitDialog = new WaitDialog(this, R.string.registerloading);
+        // 设置dialog点击屏幕不消失
+        waitDialog.setCanceledOnTouchOutside(false);
+
+        // 注册广播接收者,接收注册反馈
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Constants.ACTION_REGISTER_FEEKBACK);
+        registerReceiver(mReceiver, filter);
+    }
+
+    @OnClick({R.id.btn_register_ok})
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.btn_register_ok:
+                // 确定注册按钮
+                // 检测数据格式
+                boolean flag = checkTheFormat();
+                // 表示符合要求
+                if (flag) {
+                    waitDialog.show();
+                    // 注册
+                    User user = new User();
+                    user.setPhoneNumber(phoneNumber);
+                    user.setIdCardNumber(idCard);
+                    user.setNickName(nickName);
+                    user.setPassWord(password);
+                    // 封装注册数据
+                    byte[] data = DataProcessingUtil.registDataPackage(user);
+                    // 发送注册请求
+                    NetWorkUtil.connectServerWithTCPSocket(data);
+                    // 开始计时,如果30秒内没有反馈回任何数,表示注册失败
+                    isPause = false;
+                    try {
+                        timer.schedule(task, 1000, 1000);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    return;
+                    //ToastUtils.showToast(this, R.string.server_connection_failure);
+                }
+                break;
+        }
+    }
+
+    TimerTask task = new TimerTask() {
+        @Override
+        public void run() {
+
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (!isPause) {
+                        recLen--;
+                        if (!waitDialog.isShowing()) {
+                            recLen = 30;
+                            isPause = true;
+                        }
+                        // 判断到达30秒未收到反馈
+                        if (recLen <= 0) {
+                            recLen = 30;
+                            // 自己发广播告诉用户失败了
+                            // 封装数据
+                            Intent intent = new Intent();
+                            intent.putExtra("registState", -1);
+                            intent.setAction(Constants.ACTION_REGISTER_FEEKBACK);
+                            // 发送广播
+                            MyApplication.getContextObject().sendBroadcast(intent);
+                            isPause = true;
+                        }
+                    }
+                }
+            });
+        }
+    };
+
+    /**
+     * 检测页面数据是否符合要求
+     *
+     * @return true符合  false 不符合
+     */
+    private boolean checkTheFormat() {
+        phoneNumber = mEtPhoneNumber.getText().toString();
+        // 判断手机号为空
+        if (CommUtil.isEmpty(phoneNumber)) {
+            ToastUtils.showToast(this, R.string.phone_number_not_none);
+            return false;
+        }
+        // 判断手机号格式错误
+        if (!CommUtil.isPhone(phoneNumber)) {
+            ToastUtils.showToast(this, R.string.phone_number_iswrong);
+            return false;
+        }
+        idCard = mEtIdCard.getText().toString();
+        // 判断身份证号为空
+        if (CommUtil.isEmpty(idCard)) {
+            ToastUtils.showToast(this, R.string.id_card_not_none);
+            return false;
+        }
+        // 判断身份证号格式错误
+        if (!CommUtil.isIdCard(idCard)) {
+            ToastUtils.showToast(this, R.string.id_card_iswrong);
+            return false;
+        }
+
+        nickName = mEtNickName.getText().toString();
+        // 判断昵称为空
+        if (CommUtil.isEmpty(nickName)) {
+            ToastUtils.showToast(this, R.string.nick_name_not_none);
+            return false;
+        }
+        // 判断昵称长度
+        byte[] bytes = new byte[0];
+        try {
+            bytes = nickName.getBytes("GBK");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        if (bytes.length < 4 || bytes.length > 20) {
+            ToastUtils.showToast(this, R.string.nick_name_length);
+            return false;
+        }
+        password = mEtPassword.getText().toString();
+        cofirmPwd = mEtConfirmPwd.getText().toString();
+        //判断密码或确认密码为空
+        if (CommUtil.isEmpty(password) || CommUtil.isEmpty(cofirmPwd)) {
+            ToastUtils.showToast(this, R.string.password_is_empty);
+            return false;
+        }
+        // 判断密码或确认密码的长度
+        if (password.length() != 6 || cofirmPwd.length() != 6) {
+            ToastUtils.showToast(this, R.string.pwd_length);
+            return false;
+        }
+        // 判断密码格式,只能是数字
+        if (!CommUtil.isNumber(password)) {
+            ToastUtils.showToast(this, R.string.pwd_number);
+            return false;
+        }
+        // 判断密码和确认密码是否一致
+        if (!(password.equals(cofirmPwd))) {
+            ToastUtils.showToast(this, R.string.pwd_not_same);
+            return false;
+        }
+        // 判断网络是否可用
+//        if (!CommUtil.isNetWorkAvailable(this)) {
+//            ToastUtils.showToast(this, R.string.network_unavailable);
+//            return false;
+//        }
+        return true;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mReceiver);
+        if (dao != null) {
+            dao.close();
+        }
+        if (timer != null) {
+            timer.cancel();
+        }
+    }
+}

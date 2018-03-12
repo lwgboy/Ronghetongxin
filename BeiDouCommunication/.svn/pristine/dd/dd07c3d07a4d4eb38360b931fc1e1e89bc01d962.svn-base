@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/search_list_bg"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/et_id_or_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/layout_ten"
+        android:layout_marginTop="@dimen/layout_ten"
+        android:background="@color/white"
+        android:drawableLeft="@drawable/search_left_icon"
+        android:drawablePadding="@dimen/layout_eight"
+        android:hint="@string/search_edittext_hint"
+        android:paddingBottom="@dimen/layout_eight"
+        android:paddingLeft="@dimen/layout_thirty"
+        android:paddingTop="@dimen/layout_eight"
+        android:textColor="@color/black"
+        android:singleLine="true"
+        android:textColorHint="@color/text_color_hint" />
+
+    <Button
+        android:id="@+id/btn_add_friend_confirm"
+        style="@style/friend_details_btn_style"
+        android:background="@drawable/friend_send_message_button_bg_selector"
+        android:text="@string/search"
+        android:textColor="@drawable/friend_details_button_text_selector" />
+
+</LinearLayout>

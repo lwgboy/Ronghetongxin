@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#33CCCCCC"
+        android:gravity="center_vertical"
+        android:paddingBottom="@dimen/layout_ten"
+        android:paddingRight="@dimen/layout_ten"
+        android:paddingTop="@dimen/layout_ten">
+
+        <TextView
+            android:id="@+id/tv_pay_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="27.00元"
+            android:textColor="@color/red"
+            android:textSize="@dimen/layout_eighteen" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/tv_pay_money"
+            android:text="需支付: "
+            android:textColor="@color/text_color"
+            android:textSize="@dimen/layout_eighteen" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/layout_ten"
+        android:text="支付方式"
+        android:textColor="@color/text_color"
+        android:textSize="@dimen/layout_eighteen" />
+
+    <ListView
+        android:id="@+id/listview_pay"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/layout_zero"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/tv_pay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/layout_ten"
+        android:background="@color/main_color"
+        android:gravity="center"
+        android:paddingBottom="@dimen/layout_ten"
+        android:paddingTop="@dimen/layout_ten"
+        android:text="去付款"
+        android:textColor="@color/white" />
+
+</LinearLayout>
