@@ -19,6 +19,8 @@ import butterknife.ButterKnife;
 public class AboutUsActivity extends TitlebarActivity {
 
     public static final String TAG = "AboutUsActivity";
+    public static final String aa = "测试提交";
+    public static final String bb = "测试提交";
 
     @Bind(R.id.about_us_recyclerView)
     SwipeCardRecyclerView mRecyclerView;
